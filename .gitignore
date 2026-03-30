@@ -1,0 +1,37 @@
+### IDE - IntelliJ / CLion ###
+.idea/
+cmake-build-debug/
+cmake-build-release/
+*.iws
+*.iml
+*.ipr
+
+### Compiled Binaries & Objects ###
+*.o
+*.obj
+*.exe
+*.out
+*.app
+bin/
+build/
+
+### Libraries ###
+*.lib
+*.a
+*.dll
+*.so
+*.dylib
+
+### Testing & Coverage ###
+_deps/
+*.gcda
+*.gcno
+*.gcov
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
+
+### Custom Data / Logs ###
+*.log
+temp/
