@@ -42,6 +42,20 @@ public:
         currentSize++;
     }
 
+    void addAtIndex(T item, int index) {
+
+        if (index < 0 || index >= capacity || index >= currentSize) {
+            throw std::out_of_range("index out of range");
+        }
+
+        if (currentSize == capacity) {
+            resizeUp();
+        }
+
+        arr[index] = item;
+        currentSize++;
+    }
+
     T pop() {
         if (currentSize == 0) {
             throw std::out_of_range("pop() called on empty array");
