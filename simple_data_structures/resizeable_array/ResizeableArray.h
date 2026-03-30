@@ -7,13 +7,22 @@
 #include <iostream>
 #include <stdexcept>
 
-
+/*
+ * Resizeable array
+ *
+ * What to think about when designing one:
+ * - Resizing policy to achieve reasonable memory and time efficiency.
+ * - Typically:
+ * -- Insertions must achieve amortized O(1) efficiency.
+ * -- Memory: Must achieve a balance on the frequency of resizing and unused space size.
+ */
 template<typename T>
 class ResizeableArray {
 public:
     ResizeableArray() {
-        arr = new T[10];
-        capacity = 10;
+        // a small initial allocation to avoid allocating on the first insert
+        arr = new T[16];
+        capacity = 16;
         currentSize = 0;
     }
 
@@ -22,13 +31,13 @@ public:
     }
 
     ResizeableArray(const ResizeableArray &) = delete;
-
     ResizeableArray &operator=(const ResizeableArray &) = delete;
 
     void append(T item) {
         if (currentSize == capacity) {
             resizeUp();
         }
+        // Possible optimization: move instead of copy
         arr[currentSize] = item;
         currentSize++;
     }
@@ -37,11 +46,14 @@ public:
         if (currentSize == 0) {
             throw std::out_of_range("pop() called on empty array");
         }
-        if (currentSize == capacity / 4) {
+
+        T item = arr[currentSize - 1];
+        currentSize--;
+
+        if (currentSize <= capacity / 4) {
             resizeDown();
         }
-        currentSize--;
-        T item = arr[currentSize];
+
         return item;
     }
 
@@ -52,11 +64,11 @@ public:
         return arr[index];
     }
 
-    int getSize() {
+    size_t getSize() {
         return currentSize;
     }
 
-    int getCapacity() {
+    size_t getCapacity() {
         return capacity;
     }
 
@@ -68,25 +80,35 @@ public:
 
 private:
     T *arr;
-    int capacity;
-    int currentSize;
+    size_t capacity;
+    size_t currentSize;
 
+    // Double the size - Achieves amortized O(1) - Total number of resizes: Θ(log_φ n).
     void resizeUp() {
         capacity *= 2;
+
         T *newArr = new T[capacity];
+
+        // Possible optimization: move instead of copy
         for (int i = 0; i < currentSize; i++) {
             newArr[i] = arr[i];
         }
+
         delete[] arr;
         arr = newArr;
     }
 
     void resizeDown() {
+        if (capacity <= 16) {
+            return;
+        }
+
         capacity /= 2;
         T *newArr = new T[capacity];
         for (int i = 0; i < currentSize; i++) {
             newArr[i] = arr[i];
         }
+
         delete[] arr;
         arr = newArr;
     }

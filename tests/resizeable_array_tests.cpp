@@ -8,7 +8,7 @@
 
 TEST(ResizeableArrayTest, ResizeIncreasesTheCapacityOfTheArray) {
     ResizeableArray<int> array;
-    int initialCapacity = array.getCapacity();
+    size_t initialCapacity = array.getCapacity();
     for (int i = 0; i < 12; i++) {
         array.append(i);
     }
@@ -18,7 +18,7 @@ TEST(ResizeableArrayTest, ResizeIncreasesTheCapacityOfTheArray) {
 
 TEST(ResizeableArrayTest, ResizeDecreasesTheCapacityOfTheArray) {
     ResizeableArray<int> array;
-    int initialCapacity = array.getCapacity();
+    size_t initialCapacity = array.getCapacity();
 
     for (int i = 0; i < 100; i++) {
         array.append(i);
