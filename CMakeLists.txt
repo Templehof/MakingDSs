@@ -20,4 +20,6 @@ add_subdirectory(tests)
 add_executable(MakingDSs main.cpp
         simple_data_structures/resizeable_array/ResizeableArray.h
         concurrency_safe_data_structures/NaiveConcurrentResizeableArray.h
+        concurrency_safe_data_structures/RWConcurrentResizeableArray.h
+        concurrency_safe_data_structures/LockFreeConcurrentResizeableArray.h
 )

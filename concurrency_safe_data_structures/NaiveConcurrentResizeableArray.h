@@ -4,6 +4,7 @@
 
 #ifndef MAKINGDSS_NAIVECONCURRENTRESIZEABLEARRAY_H
 #define MAKINGDSS_NAIVECONCURRENTRESIZEABLEARRAY_H
+
 #include <cstddef>
 #include <mutex>
 #include <iostream>
@@ -31,7 +32,6 @@ public:
             if (currentSize == capacity) {
                 resizeUp();
             }
-            // Possible optimization: move instead of copy
             arr[currentSize] = item;
             currentSize++;
             arrayMutex.unlock();

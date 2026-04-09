@@ -2,6 +2,7 @@
 #include <thread>
 
 #include "concurrency_safe_data_structures/NaiveConcurrentResizeableArray.h"
+#include "concurrency_safe_data_structures/RWConcurrentResizeableArray.h"
 #include "simple_data_structures/resizeable_array/ResizeableArray.h"
 
 void task1(ResizeableArray<int> &arr) {
@@ -41,23 +42,15 @@ bool isOrdered(ResizeableArray<int> &arr) {
 
 int main() {
     ResizeableArray<int> array;
-    NaiveConcurrentResizeableArray<int> concurrentArray;
-    // task1(array);
-    // task2(array);
-    // std::thread t1(task1, std::ref(array));
-    // std::thread t2(task2, std::ref(array));
+    // NaiveConcurrentResizeableArray<int> naiveConcurrentArray;
+    // RWConcurrentResizeableArray<int> rwConcurrentArray;
 
-    // bool ordered = isOrdered(array);
-    // std::cout<< "Ordered: " << ordered << std::endl;
 
-    std::thread t3(task3, std::ref(concurrentArray));
-    std::thread t4(task4, std::ref(concurrentArray));
+    // array.append(10);
+    // array.append(20);
+    // int item = array.getValue(0);
+    // std::cout<<item<<std::endl;
 
-    t4.join();
-    t3.join();
-
-    bool ordered = isOrdered(array);
-    std::cout<< "Ordered: " << ordered << std::endl;
 
     return 0;
 }

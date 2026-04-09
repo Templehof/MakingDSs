@@ -15,12 +15,15 @@
  * - Typically:
  * -- Insertions must achieve amortized O(1) efficiency.
  * -- Memory: Must achieve a balance on the frequency of resizing and unused space size.
+ *
+ * Public operations
+ * -- append, pop, insertAtIndex, deleteAtIndex, getSize, getCapacity
+ *
  */
 template<typename T>
 class ResizeableArray {
 public:
     ResizeableArray() {
-        // a small initial allocation to avoid allocating on the first insert
         arr = new T[16];
         capacity = 16;
         currentSize = 0;
@@ -31,19 +34,19 @@ public:
     }
 
     ResizeableArray(const ResizeableArray &) = delete;
+
     ResizeableArray &operator=(const ResizeableArray &) = delete;
 
     void append(T item) {
         if (currentSize == capacity) {
             resizeUp();
         }
-        // Possible optimization: move instead of copy
+
         arr[currentSize] = item;
         currentSize++;
     }
 
-    void addAtIndex(T item, int index) {
-
+    void insertAtIndex(T item, int index) {
         if (index < 0 || index >= capacity || index >= currentSize) {
             throw std::out_of_range("index out of range");
         }
@@ -52,7 +55,7 @@ public:
             resizeUp();
         }
 
-        arr[index] = item;
+        insertWithRightshift(item, index);
         currentSize++;
     }
 
@@ -103,7 +106,6 @@ private:
 
         T *newArr = new T[capacity];
 
-        // Possible optimization: move instead of copy
         for (int i = 0; i < currentSize; i++) {
             newArr[i] = arr[i];
         }
@@ -123,6 +125,24 @@ private:
             newArr[i] = arr[i];
         }
 
+        delete[] arr;
+        arr = newArr;
+    }
+
+    void insertWithRightshift(T item, int index) {
+        T *newArr = new T[capacity];
+        // Copy everything on the left of the index
+        for (int i = 0; i < index; i++) {
+            newArr[i] = arr[i];
+        }
+
+        // place the new item
+        newArr[index] = item;
+
+        // copy everything on the right of the index
+        for (int i = index; i < currentSize; i++) {
+            newArr[i + 1] = arr[i];
+        }
         delete[] arr;
         arr = newArr;
     }
